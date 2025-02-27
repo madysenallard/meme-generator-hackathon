@@ -1,35 +1,102 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// Filename - App.js
+import React from 'react'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+class App extends React.Component {
+  state = {
+    topText: '',
+    bottomText: '',
+    allMemeImgs: [],
+    randomImg: ''
+  }
 
-  return (
-    <>
+  // componentDidMount() method to fetch
+  // images from the API
+  componentDidMount () {
+    // Fetching data from the API
+    fetch('https://api.imgflip.com/get_memes')
+      // Converting the promise received into JSON
+      .then(response => response.json())
+      .then(content =>
+        // Updating state variables
+        this.setState({
+          allMemeImgs: content.data.memes
+        })
+      )
+  }
+
+  // Method to change the value of input fields
+  handleChange = event => {
+    // Destructuring the event. target object
+    const { name, value } = event.target
+
+    // Updating the state variable
+    this.setState({
+      [name]: value
+    })
+  }
+
+  // Method to submit from and create meme
+  handleSubmit = event => {
+    event.preventDefault()
+    const { allMemeImgs } = this.state
+    const rand = allMemeImgs[Math.
+                floor(Math.random() * allMemeImgs.length)].url
+    this.setState({
+      randomImg: rand
+    })
+  }
+
+  render () {
+    return (
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {/* // Controlled form */}
+        <form className='meme-form' onSubmit={this.handleSubmit}>
+          {/* // Input field to get First
+                    text */}
+          <input
+            placeholder='Enter Text'
+            type='text'
+            value={this.state.topText}
+            name='topText'
+            onChange={this.handleChange}
+          />
+          {/* // Input field to get Lsst
+                    text */}
+          <input
+            placeholder='Enter Text'
+            type='text'
+            value={this.state.bottomText}
+            name='bottomText'
+            onChange={this.handleChange}
+          />
+          {/* // Button to generate meme */}
+          <button>Generate</button>
+        </form>
+        <br />
+        <div className='meme'>
+          {/* // Only show the below
+                    elements when the image is
+                    ready to be displayed */}
+          {this.state.randomImg === '' ? (
+            ''
+          ) : (
+            <img src={this.state.randomImg} alt='meme' />
+          )}
+          {this.state.randomImg === '' ? (
+            ''
+          ) : (
+            <h2 className='top'>{this.state.topText}</h2>
+          )}
+          {this.state.randomImg === '' ? (
+            ''
+          ) : (
+            <h2 className='bottom'>{this.state.bottomText}</h2>
+          )}
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    )
+  }
 }
 
 export default App
