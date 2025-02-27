@@ -1,102 +1,104 @@
 // Filename - App.js
-import React from 'react'
-import './App.css'
+import React from "react";
+import "./App.css";
+import Header from "./components/Header/Header.jsx";
 
 class App extends React.Component {
   state = {
-    topText: '',
-    bottomText: '',
+    topText: "",
+    bottomText: "",
     allMemeImgs: [],
-    randomImg: ''
-  }
+    randomImg: "",
+  };
 
   // componentDidMount() method to fetch
   // images from the API
-  componentDidMount () {
+  componentDidMount() {
     // Fetching data from the API
-    fetch('https://api.imgflip.com/get_memes')
+    fetch("https://api.imgflip.com/get_memes")
       // Converting the promise received into JSON
-      .then(response => response.json())
-      .then(content =>
+      .then((response) => response.json())
+      .then((content) =>
         // Updating state variables
         this.setState({
-          allMemeImgs: content.data.memes
+          allMemeImgs: content.data.memes,
         })
-      )
+      );
   }
 
   // Method to change the value of input fields
-  handleChange = event => {
+  handleChange = (event) => {
     // Destructuring the event. target object
-    const { name, value } = event.target
+    const { name, value } = event.target;
 
     // Updating the state variable
     this.setState({
-      [name]: value
-    })
-  }
+      [name]: value,
+    });
+  };
 
   // Method to submit from and create meme
-  handleSubmit = event => {
-    event.preventDefault()
-    const { allMemeImgs } = this.state
-    const rand = allMemeImgs[Math.
-                floor(Math.random() * allMemeImgs.length)].url
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { allMemeImgs } = this.state;
+    const rand =
+      allMemeImgs[Math.floor(Math.random() * allMemeImgs.length)].url;
     this.setState({
-      randomImg: rand
-    })
-  }
+      randomImg: rand,
+    });
+  };
 
-  render () {
+  render() {
     return (
       <div>
+        <Header />
         {/* // Controlled form */}
-        <form className='meme-form' onSubmit={this.handleSubmit}>
+        <form className="meme-form" onSubmit={this.handleSubmit}>
           {/* // Input field to get First
                     text */}
           <input
-            placeholder='Enter Text'
-            type='text'
+            placeholder="Enter Text"
+            type="text"
             value={this.state.topText}
-            name='topText'
+            name="topText"
             onChange={this.handleChange}
           />
           {/* // Input field to get Lsst
                     text */}
           <input
-            placeholder='Enter Text'
-            type='text'
+            placeholder="Enter Text"
+            type="text"
             value={this.state.bottomText}
-            name='bottomText'
+            name="bottomText"
             onChange={this.handleChange}
           />
           {/* // Button to generate meme */}
           <button>Generate</button>
         </form>
         <br />
-        <div className='meme'>
+        <div className="meme">
           {/* // Only show the below
                     elements when the image is
                     ready to be displayed */}
-          {this.state.randomImg === '' ? (
-            ''
+          {this.state.randomImg === "" ? (
+            ""
           ) : (
-            <img src={this.state.randomImg} alt='meme' />
+            <img src={this.state.randomImg} alt="meme" />
           )}
-          {this.state.randomImg === '' ? (
-            ''
+          {this.state.randomImg === "" ? (
+            ""
           ) : (
-            <h2 className='top'>{this.state.topText}</h2>
+            <h2 className="top">{this.state.topText}</h2>
           )}
-          {this.state.randomImg === '' ? (
-            ''
+          {this.state.randomImg === "" ? (
+            ""
           ) : (
-            <h2 className='bottom'>{this.state.bottomText}</h2>
+            <h2 className="bottom">{this.state.bottomText}</h2>
           )}
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;
