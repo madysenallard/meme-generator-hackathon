@@ -1,6 +1,6 @@
 // Filename - App.js
 import React from "react";
-import "./App.css";
+import "./App.scss";
 import Header from "./components/Header/Header.jsx";
 import Description from "./components/Header/Description/Description.jsx";
 import Form from "./components/Form/Form.jsx";
@@ -62,7 +62,7 @@ class App extends React.Component {
       <div>
         <Header />
         <Description />
-        <div>
+        <div className="content__container">
           <Form
             topText={this.state.topText}
             bottomText={this.state.bottomText}
