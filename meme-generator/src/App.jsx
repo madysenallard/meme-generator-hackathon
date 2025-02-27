@@ -1,5 +1,5 @@
-// Filename - App.js
 import React from "react";
+import axios from "axios";
 import "./App.css";
 import Header from "./components/Header/Header.jsx";
 import Description from "./components/Header/Description/Description.jsx";
@@ -14,46 +14,35 @@ class App extends React.Component {
     memeBottomText: "",
     allMemeImgs: [],
     randomImg: "",
+    error: null,
   };
 
-  // componentDidMount() method to fetch
-  // images from the API
-  componentDidMount() {
-    // Fetching data from the API
-    fetch("https://api.imgflip.com/get_memes")
-      // Converting the promise received into JSON
-      .then((response) => response.json())
-      .then((content) =>
-        // Updating state variables
-        this.setState({
-          allMemeImgs: content.data.memes,
-        })
-      );
+  // componentDidMount() method to fetch images using async/await
+  async componentDidMount() {
+    try {
+      const response = await axios.get("http://localhost:5000/memes");
+      this.setState({ allMemeImgs: response.data.memes });
+    } catch (error) {
+      this.setState({ error: "Failed to load memes. Please try again." });
+    }
   }
 
   // Method to change the value of input fields
   handleChange = (event) => {
-    // Destructuring the event. target object
     const { name, value } = event.target;
-
-    // Updating the state variable
-    this.setState({
-      [name]: value,
-    });
+    this.setState({ [name]: value });
   };
 
-  // Method to submit from and create meme
+  // Method to submit form and create meme
   handleSubmit = (event) => {
     event.preventDefault();
     const { allMemeImgs } = this.state;
+    if (allMemeImgs.length === 0) return;
+
     const random =
       allMemeImgs[Math.floor(Math.random() * allMemeImgs.length)].url;
     this.setState({
       randomImg: random,
-      // memeTopText: this.state.topText,
-      // memeBottomText: this.state.bottomText,
-      // topText: "",
-      // bottomText: "",
     });
   };
 
@@ -62,6 +51,7 @@ class App extends React.Component {
       <div>
         <Header />
         <Description />
+        {this.state.error && <p className="error">{this.state.error}</p>}
         <div>
           <Form
             topText={this.state.topText}
