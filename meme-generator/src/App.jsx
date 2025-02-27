@@ -2,11 +2,16 @@
 import React from "react";
 import "./App.css";
 import Header from "./components/Header/Header.jsx";
+import Description from "./components/Header/Description/Description.jsx";
+import Form from "./components/Form/Form.jsx";
+import Meme from "./components/Meme/Meme.jsx";
 
 class App extends React.Component {
   state = {
     topText: "",
     bottomText: "",
+    memeTopText: "",
+    memeBottomText: "",
     allMemeImgs: [],
     randomImg: "",
   };
@@ -41,10 +46,14 @@ class App extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { allMemeImgs } = this.state;
-    const rand =
+    const random =
       allMemeImgs[Math.floor(Math.random() * allMemeImgs.length)].url;
     this.setState({
-      randomImg: rand,
+      randomImg: random,
+      // memeTopText: this.state.topText,
+      // memeBottomText: this.state.bottomText,
+      // topText: "",
+      // bottomText: "",
     });
   };
 
@@ -52,49 +61,19 @@ class App extends React.Component {
     return (
       <div>
         <Header />
-        {/* // Controlled form */}
-        <form className="meme-form" onSubmit={this.handleSubmit}>
-          {/* // Input field to get First
-                    text */}
-          <input
-            placeholder="Enter Text"
-            type="text"
-            value={this.state.topText}
-            name="topText"
-            onChange={this.handleChange}
+        <Description />
+        <div>
+          <Form
+            topText={this.state.topText}
+            bottomText={this.state.bottomText}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
           />
-          {/* // Input field to get Lsst
-                    text */}
-          <input
-            placeholder="Enter Text"
-            type="text"
-            value={this.state.bottomText}
-            name="bottomText"
-            onChange={this.handleChange}
+          <Meme
+            randomImg={this.state.randomImg}
+            topText={this.state.topText}
+            bottomText={this.state.bottomText}
           />
-          {/* // Button to generate meme */}
-          <button>Generate</button>
-        </form>
-        <br />
-        <div className="meme">
-          {/* // Only show the below
-                    elements when the image is
-                    ready to be displayed */}
-          {this.state.randomImg === "" ? (
-            ""
-          ) : (
-            <img src={this.state.randomImg} alt="meme" />
-          )}
-          {this.state.randomImg === "" ? (
-            ""
-          ) : (
-            <h2 className="top">{this.state.topText}</h2>
-          )}
-          {this.state.randomImg === "" ? (
-            ""
-          ) : (
-            <h2 className="bottom">{this.state.bottomText}</h2>
-          )}
         </div>
       </div>
     );
