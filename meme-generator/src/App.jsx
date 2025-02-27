@@ -1,10 +1,6 @@
 import React from "react";
-<<<<<<< HEAD
-import "./App.scss";
-=======
 import axios from "axios";
-import "./App.css";
->>>>>>> 3da2d178d98bd8d5857c052f589915a2f8c40c6f
+import "./App.scss";
 import Header from "./components/Header/Header.jsx";
 import Description from "./components/Header/Description/Description.jsx";
 import Form from "./components/Form/Form.jsx";
@@ -55,12 +51,8 @@ class App extends React.Component {
       <div>
         <Header />
         <Description />
-<<<<<<< HEAD
-        <div className="content__container">
-=======
         {this.state.error && <p className="error">{this.state.error}</p>}
         <div>
->>>>>>> 3da2d178d98bd8d5857c052f589915a2f8c40c6f
           <Form
             topText={this.state.topText}
             bottomText={this.state.bottomText}
