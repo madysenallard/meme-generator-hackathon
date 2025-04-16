@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import "./App.scss";
 import Header from "./components/Header/Header.jsx";
-import Description from "./components/Header/Description/Description.jsx";
+import Description from "./components/Description/Description.jsx";
 import Form from "./components/Form/Form.jsx";
 import Meme from "./components/Meme/Meme.jsx";
 
@@ -52,7 +52,7 @@ class App extends React.Component {
         <Header />
         <Description />
         {this.state.error && <p className="error">{this.state.error}</p>}
-        <div>
+        <div className="content__container">
           <Form
             topText={this.state.topText}
             bottomText={this.state.bottomText}
